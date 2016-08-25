@@ -1,0 +1,163 @@
+<#macro index>
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<#if pageSearchType==0>
+		<title>首页 - KKys</title>
+	<#elseif pageSearchType==1>
+		<title>分类</title>
+	<#elseif pageSearchType==2>
+		<title>搜索</title>
+	<#elseif pageSearchType==3>
+		<title>详情</title>
+	<#elseif pageSearchType==4>
+		<title>相册 - KKys</title>
+	</#if>
+
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+	<!-- 可选的Bootstrap主题文件（一般不使用） -->
+	<link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap-theme.min.css" rel="stylesheet">
+	<!-- lightbox样式 -->
+	<link rel="stylesheet" href="${base}/css/lightbox.css">
+
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+	<style>
+		fieldset{padding:.35em .625em .75em;margin:0 2px;border:1px solid silver}
+		legend{width:auto;font-size: 19px;font-style: oblique;color: black}
+		.read_more_button {
+			-moz-box-shadow:inset 0px 0px 26px -41px #ffffff;
+			-webkit-box-shadow:inset 0px 0px 26px -41px #ffffff;
+			box-shadow:inset 0px 0px 26px -41px #ffffff;
+			background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f5f5f5), color-stop(1, #f5f5f5));
+			background:-moz-linear-gradient(top, #f5f5f5 5%, #f5f5f5 100%);
+			background:-webkit-linear-gradient(top, #f5f5f5 5%, #f5f5f5 100%);
+			background:-o-linear-gradient(top, #f5f5f5 5%, #f5f5f5 100%);
+			background:-ms-linear-gradient(top, #f5f5f5 5%, #f5f5f5 100%);
+			background:linear-gradient(to bottom, #f5f5f5 5%, #f5f5f5 100%);
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#f5f5f5',GradientType=0);
+			background-color:#f5f5f5;
+			-moz-border-radius:38px;
+			-webkit-border-radius:38px;
+			border-radius:38px;
+			display:inline-block;
+			cursor:pointer;
+			color:#121212;
+			font-family:Times New Roman;
+			font-size:15px;
+			font-style:italic;
+			padding:8px 8px;
+			text-decoration:none;
+			text-shadow:0px 1px 40px #2f6627;
+		}
+		.read_more_button:hover {
+			background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f5f5f5), color-stop(1, #f5f5f5));
+			background:-moz-linear-gradient(top, #f5f5f5 5%, #f5f5f5 100%);
+			background:-webkit-linear-gradient(top, #f5f5f5 5%, #f5f5f5 100%);
+			background:-o-linear-gradient(top, #f5f5f5 5%, #f5f5f5 100%);
+			background:-ms-linear-gradient(top, #f5f5f5 5%, #f5f5f5 100%);
+			background:linear-gradient(to bottom, #f5f5f5 5%, #f5f5f5 100%);
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#f5f5f5',GradientType=0);
+			background-color:#f5f5f5;
+		}
+		.read_more_button:active {
+			position:relative;
+			top:1px;
+		}
+
+	</style>
+</head>
+<body>
+<!-- 顶部导航 -->
+<nav class="navbar navbar-default navbar-static-top">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<a class="navbar-brand" href="${base}">KKys的博客</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${base}">首页</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">分类 <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="${base}/searchByType/0">学习</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="${base}/searchByType/1">生活</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="${base}/searchByType/2">杂记</a></li>
+					</ul>
+				</li>
+				<li><a href="${base}/album/albumHtml">相册</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#about-modal">关于</a></li>
+			</ul>
+			<div style="float: right;">
+				<div class="input-group" style="padding-top: 9px">
+					<form action="${base}/searchByTitle" method="post">
+						<input style="font-size:18px;width: 280px" class="form-control" name="titleSearch" placeholder="搜索你感兴趣的内容...">
+						<button class="btn btn-default" type="submit">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+					</form>
+				</div><!-- /input-group -->
+			</div><!-- /.row -->
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+
+	<div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+		 aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span
+							aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+					<h4 class="modal-title" id="modal-label">关于</h4>
+				</div>
+				<div class="modal-body">
+					<p>分享技术与生活的博客</p>
+					<fieldset>
+						<legend>个人介绍</legend>
+						<div style="text-align: center;padding-bottom: 10px">
+							<img src="${base}/img/1.png" width="180px" height="180px" class="img-circle">
+						</div>
+						<!--<div class="col-lg-offset-3">-->
+							<!--<span class="glyphicon glyphicon-user" style="color: gray" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姚&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;晟-->
+						<!--</div>-->
+						<!--<div class="col-lg-offset-3">-->
+							<!--<span class="glyphicon glyphicon-cloud" style="color: gray" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;电子科技大学-->
+						<!--</div>-->
+					</fieldset>
+					<p style="text-align: right">By KKys</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">了解</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<#nested>
+
+<#if pageSearchType==0>
+	<div class="container" style="padding-bottom: 50px">
+		<hr style="border: 1px solid silver">
+		<a href="#" style="float: right" data-toggle="modal" data-target="#about-modal">联系我</a>
+		<p>&copy; KKys </p>
+	</div>
+<#else>
+	<hr>
+</#if>
+	<script src="${base}/js/lightbox.js"></script>
+</body>
+</html>
+
+</#macro>

@@ -1,0 +1,132 @@
+<#macro index>
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<#if pageSearchType==0>
+		<title>首页 - KKys</title>
+	<#elseif pageSearchType==1>
+		<title>分类</title>
+	<#elseif pageSearchType==2>
+		<title>搜索</title>
+	<#else>
+		<title>详情</title>
+	</#if>
+
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+	<!-- 可选的Bootstrap主题文件（一般不使用） -->
+	<link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap-theme.min.css" rel="stylesheet">
+	<!-- Bootstrap校验css -->
+	<link href="http://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<!-- Bootstrap校验 -->
+	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+
+	<style>
+		.error{
+			color:crimson;
+		}
+		fieldset{padding:.35em .625em .75em;margin:0 2px;border:1px solid silver}
+
+		legend{padding:.5em;border:0;width:auto}
+	</style>
+</head>
+<body>
+<!-- 顶部导航 -->
+<nav  class="navbar navbar-default navbar-static-top">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<a class="navbar-brand" href="${base}">KKys的博客</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+				<li><a href="${base}">首页</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">分类 <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="${base}/searchByType/0">学习</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="${base}/searchByType/1">生活</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="${base}/searchByType/2">杂记</a></li>
+					</ul>
+				</li>
+				<li><a href="${base}/adminHtml">管理</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#about-modal">关于</a></li>
+			</ul>
+			<div style="float: right;">
+				<div class="input-group" style="padding-top: 9px">
+					<form action="${base}/searchByTitle" method="post">
+						<input style="font-size:18px;width: 300px" class="form-control" name="titleSearch" placeholder="搜索你感兴趣的内容...">
+						<button class="btn btn-default" type="submit">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+					</form>
+				</div><!-- /input-group -->
+			</div><!-- /.row -->
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+
+<#nested>
+
+<!-- 关于 -->
+<div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+	 aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span
+						aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+				<h4 class="modal-title" id="modal-label">关于</h4>
+			</div>
+			<div class="modal-body">
+				<p>分享技术与生活的博客</p>
+				<p style="text-align: right">By KKys</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">了解</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<nav style="text-align: center">
+	<#if pageSearchType==0>
+		<#include "/common/_paginate.html" />
+		<@paginate currentPage=blogPage.pageNumber totalPage=blogPage.totalPage actionUrl="${base}/" />
+		<#elseif pageSearchType==1>
+			<#include "/common/_paginate.html" />
+			<@paginate currentPage=blogPage.pageNumber totalPage=blogPage.totalPage actionUrl="${base}/searchByType/${type}-" />
+	</#if>
+</nav>
+<#if pageSearchType==0>
+	<div class="container" style="padding-bottom: 50px">
+		<hr>
+		<p class="pull-right"><a href="#top">回到顶部</a></p>
+		<p>&copy; KKys </p>
+	</div>
+<#else>
+	<hr>
+</#if>
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+</#macro>

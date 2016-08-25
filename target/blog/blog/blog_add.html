@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>发布文章</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 可选的Bootstrap主题文件（一般不使用） -->
+    <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap-theme.min.css" rel="stylesheet">
+    <style>
+
+    </style>
+
+
+</head>
+<body>
+
+<hr>
+<form action="${base}/add" method="post">
+    <div style="text-align: center">
+        <label style="font-size: 20px">选择种类:</label>
+        <select name="type" class="form-control" style="font-size:20px;width:200px;display: inline">
+            <option value="0">学习</option>
+            <option value="1">生活</option>
+            <option value="2">杂记</option>
+        </select>
+    </div>
+    <hr>
+    <div style="text-align: center">
+        <label style="font-size: 18px">标题:</label>
+        <input style="display: inline;font-size:18px;width:600px;" name="title" type="text" class="form-control" placeholder="请输入标题..."/>
+    </div>
+    <div style="padding-top: 30px;padding-left: 500px;padding-right: 500px">
+      <textarea rows="30" cols="50" name="content" class="ckeditor">请输入.</textarea>
+    </div>
+    <hr>
+    <div style="text-align: center">
+        <button style="font-size: 18px" type="submit" class="btn btn-default">发布</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a style="font-size: 18px" href="${base}" class="btn btn-default">取消</a>
+    </div>
+</form>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
+</body>
+</html>

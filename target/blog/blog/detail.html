@@ -1,0 +1,59 @@
+<#include "/common/index.html" />
+<@index>
+<div class="container table_box">
+    <hr>
+    <!-- <h2 >${x.id}</h2> -->
+    <h2 style="text-align:left;">${x.title}</h2>
+    <div style="padding-top: 4px;">${x.content}</div>
+    <div style="text-align: right">
+        <#if x.type==0>
+            <a href="${base}/searchByType/0" class="label label-info" style="font-size: 16px">学习</a>
+            <#elseif x.type==1>
+                <a href="${base}/searchByType/1" class="label label-success" style="font-size: 16px">生活</a>
+                <#else>
+                    <a href="${base}/searchByType/2" class="label label-warning" style="font-size: 16px">杂记</a>
+        </#if>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <label style="font-size: 15px">${x.create_time}</label>
+    </div>
+
+    <#if (commentList?size>0)>
+        <h3>评论列表</h3>
+        <hr style="height: 2px" color="grey">
+     <#else>
+        <h3>暂无评论</h3>
+         <hr style="height: 2px" color="grey">
+    </#if>
+    <#assign var = 0 >
+    <#list commentList as comment>
+        <span style="color:black;width: 40px">${var+1}楼</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-user" style="color: darkgrey ;width:150px" aria-hidden="true">&nbsp;${comment.username}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-envelope" style="color: darkgrey;width:300px" aria-hidden="true">&nbsp;${comment.email}</span>
+        <div style="font-size:16px;padding: 10px 50px 10px 45px;">${comment.content}</div>
+        <div style="color:gray;float: right">
+            <i>评论于 ${comment.create_time}</i>
+        </div>
+        <hr>
+        <#assign var = var+1 >
+    </#list>
+
+    <form style="text-align: center" id="comment_id" action="${base}/comment/add" method="post">
+        <div class="form-inline">
+            <input value="${x.id}" type="hidden" name="comment.blog_id">
+            <label style="font-size: 15px">* 用户名：</label>
+            <input style="width:150px;font-size: 15px" type="text" class="form-control" name="comment.username">
+            <span style="color: red;font-size: 15px">&nbsp;&nbsp;${userMsg!''}</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label style="font-size: 15px">* 邮箱：</label>
+            <input style="width:200px;font-size: 15px" type="text" class="form-control" name="comment.email">
+            <span style="color: red;font-size: 15px">&nbsp;&nbsp;${emailMsg!''}</span>
+        </div>
+        <div style="padding: 15px 100px">
+            <textarea name="comment.content" class="form-control" rows="4"></textarea>
+        </div>
+        <button type="submit" style="width: 150px" class="btn btn-info">评论</button>
+    </form>
+</div>
+</@index>

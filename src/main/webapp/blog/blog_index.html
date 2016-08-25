@@ -1,0 +1,167 @@
+<#include "/common/index.html" />
+<@index>
+<div class="container-fluid row">
+    <div class="container table_box col-lg-2" style=""></div>
+    <div class="container table_box col-lg-5" style="padding-left: 68px">
+        <label style="font-size: 16px"><span class="glyphicon glyphicon-list" style="color: gray" aria-hidden="true"></span></label>
+        <span style="font-size: 20px">最新</span>
+        <hr style="border: 1px solid silver">
+        <#list blogPage.getList() as x>
+            <div class="inline">
+                <a style="font-size:30px;text-decoration:none;" href="${base}/detail/${x.id}">${x.title}</a>
+                <a style="float: right;text-decoration:none;" href="${base}/detail/${x.id}" class="read_more_button">read more</a>
+            </div>
+            <#if x.pic_url??>
+                <div class="row" style="padding-top: 12px;font-size:12px;height: 160px;overflow: hidden;">
+                    <div class="col-lg-3 col-sm-3">
+                        <div style="text-align: center"><a href="${x.pic_url}" class="thumbnail" data-lightbox="example-1"><img src="${x.pic_url}" height="140px"></a></div>
+                    </div>
+                    <div class="col-lg-9 col-sm-9" style="font-size: 14px">
+                        <div>${x.content}</div>
+                    </div>
+                </div>
+            <#else>
+                <div style= "height:40px; width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${x.content}</div>
+            </#if>
+            <div style="text-align: right">
+                <label style="font-size: 12px;float: left">${x.create_time}</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label style="font-size: 12px;width: 70px;text-align: left"><span class="glyphicon glyphicon-eye-open" style="color: gray" aria-hidden="true"></span> <a style="text-decoration:none;" href="${base}/detail/${x.id}">阅读</a>(${x.click_times})</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label style="font-size: 12px;width: 70px;text-align: left"><span class="glyphicon glyphicon-edit" style="color: gray" aria-hidden="true"></span>  <a style="text-decoration:none;" href="${base}/detail/${x.id}#comment_id">评论</a>(${x.comment_times})</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label style="font-size: 12px;width: 70px;text-align: left"><span class="glyphicon glyphicon-thumbs-up" style="color: gray" aria-hidden="true"></span>  推荐(${x.agree_with_times})</label>
+            </div>
+            <hr>
+        </#list>
+        <!-- 分页 -->
+        <nav style="text-align: center">
+            <#if pageSearchType==0>
+                <#include "/common/_paginate.html" />
+                <@paginate currentPage=blogPage.pageNumber totalPage=blogPage.totalPage actionUrl="${base}/" />
+                <#elseif pageSearchType==1>
+                    <#include "/common/_paginate.html" />
+                    <@paginate currentPage=blogPage.pageNumber totalPage=blogPage.totalPage actionUrl="${base}/searchByType/${type}-" />
+            </#if>
+        </nav>
+    </div>
+    <div class="container col-lg-3" style="padding-left: 90px;padding-right: 60px">
+        <div>
+            <legend>最新照片</legend>
+            <!-- 广告轮播 -->
+            <div id="ad-carousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#ad-carousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#ad-carousel" data-slide-to="1"></li>
+                    <li data-target="#ad-carousel" data-slide-to="2"></li>
+                    <li data-target="#ad-carousel" data-slide-to="3"></li>
+                    <li data-target="#ad-carousel" data-slide-to="4"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <#assign index = 1 >
+                    <#list picList as pic>
+                        <#if pic_index==0>
+                            <div class="item active">
+                                <a href="${pic.url}" data-lightbox="example-set">
+                                    <img src="${pic.url}" class="center-block" height="240px" style="height: 240px">
+                                </a>
+                            </div>
+                        <#else>
+                            <div class="item">
+                                <a href="${pic.url}" data-lightbox="example-set">
+                                    <img src="${pic.url}" class="center-block" height="240px" style="height: 240px">
+                                </a>
+                            </div>
+                        </#if>
+                        <#assign index = index+1 >
+                    </#list>
+                </div>
+                <a class="left carousel-control" href="#ad-carousel" data-slide="prev"><span
+                        class="glyphicon glyphicon-chevron-left"></span></a>
+                <a class="right carousel-control" href="#ad-carousel" data-slide="next"><span
+                        class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+        <div style="padding-top: 50px">
+        </div>
+            <#assign var = 0 >
+            <legend>阅读排行</legend>
+            <#list mostLookBlogList as x>
+                <div style="padding-bottom: 7px;padding-left: 10px">
+                    <#if var==0>
+                        <span class="badge" style="font-size: 20px;width: 27px;color: lightskyblue;background-color: snow">${var+1}</span>
+                    <#elseif var==1>
+                        <span class="badge" style="font-size: 17px;width: 27px;color: lightskyblue;background-color: snow">${var+1}</span>
+                    <#elseif var==2>
+                        <span class="badge" style="font-size: 14px;width: 27px;color: lightskyblue;background-color: snow">${var+1}</span>
+                    <#else>
+                        <span class="badge" style="font-size: 12px;width: 27px;color: lightskyblue;background-color: snow">${var+1}</span>
+                    </#if>
+                    <a style="color: slategray" href="${base}/detail/${x.id}">
+                    <#if x.type==0>
+                        【学习】
+                        <#elseif x.type==1>
+                           【生活】
+                            <#else>
+                                【杂记】
+                    </#if>
+                    ${x.title}</a>
+                </div>
+            <#assign var = var+1 >
+            </#list>
+        </div>
+        <div style="padding-top: 50px">
+            <#assign var = 0 >
+                <legend>评论排行</legend>
+                <#list mostCommentBlogList as x>
+                    <div style="padding-bottom: 7px;padding-left: 10px">
+                        <#if var==0>
+                            <span class="badge" style="font-size: 20px;width: 27px;color: lightskyblue;background-color: snow">${var+1}</span>
+                            <#elseif var==1>
+                                <span class="badge" style="font-size: 17px;width: 27px;color: lightskyblue;background-color: snow">${var+1}</span>
+                                <#elseif var==2>
+                                    <span class="badge" style="font-size: 14px;width: 27px;color: lightskyblue;background-color: snow">${var+1}</span>
+                                    <#else>
+                                        <span class="badge" style="font-size: 12px;width: 27px;color: lightskyblue;background-color: snow">${var+1}</span>
+                        </#if>
+                        <a style="color: slategray" href="${base}/detail/${x.id}">
+                            <#if x.type==0>
+                                【学习】
+                                <#elseif x.type==1>
+                                    【生活】
+                                    <#else>
+                                        【杂记】
+                            </#if>
+                            ${x.title}</a>
+                    </div>
+                    <#assign var = var+1 >
+                </#list>
+        </div>
+        <div style="padding-top: 50px">
+                <legend>最新评论</legend>
+                <#list commentList as x>
+                    <div style="padding-left: 10px;padding-right: 10px">
+                        <a style="color: gray;font-size: 15px;overflow: hidden;text-overflow:ellipsis;width: 300px;display: block" href="${base}/detail/${x.id}"><i>Re：${x.title}</i></a>
+                        <div style="font-size:15px;padding-top: 10px;padding-bottom: 10px">
+                            <span style="padding-left: 10px;line-height:150%"><span style="color: gray" class="glyphicon glyphicon-user" aria-hidden="true"></span> ${x.username}：${x.content!""}</span>
+                        </div>
+                        <span style="color:gray">
+                            <i>${x.create_time}</i>
+                        </span>
+                    </div>
+                    <hr>
+                </#list>
+        </div>
+        <div style="padding-top: 30px;">
+            <fieldset>
+                <div><label>当日访问：${info.today_click_times} 次</label></div>
+                <div><label>历史访问：${info.history_click_times} 次</label></div>
+            </fieldset>
+
+        </div>
+    </div>
+    <div class="container col-lg-2"></div>
+</div>
+
+
+
+</@index>

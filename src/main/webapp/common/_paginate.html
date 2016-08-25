@@ -1,0 +1,67 @@
+<#macro paginate currentPage totalPage actionUrl urlParas="">
+	<#if (totalPage <= 0) || (currentPage > totalPage)><#return></#if>
+
+	<ul class="pagination">
+		<#if (currentPage == 1)>
+			<li>
+				<a aria-label="Previous">
+				<span class="disabled" aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+		<#else>
+			<li>
+				<a href="${actionUrl}#{currentPage - 1}${urlParas!}" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+		</#if>
+
+		<#if (currentPage < 4)&&(totalPage>7)>
+			<#list 1..7 as i>
+				<#if currentPage == i>
+					<li><a style="color: #000000">#{i}</a></li>
+					<#else>
+						<li><a href="${actionUrl}#{i}${urlParas!}">#{i}</a><li>
+				</#if>
+			</#list>
+		<#elseif ((totalPage-currentPage) < 4)&&(totalPage>7)>
+			<#list (totalPage-6)..totalPage as i>
+				<#if currentPage == i>
+					<li><a style="color: #000000">#{i}</a></li>
+					<#else>
+						<li><a href="${actionUrl}#{i}${urlParas!}">#{i}</a><li>
+				</#if>
+			</#list>
+		<#elseif ((currentPage-3) > 0)&&((currentPage+3)<totalPage)>
+			<#list (currentPage-3)..(currentPage+3) as i>
+				<#if currentPage == i>
+					<li><a style="color: #000000">#{i}</a></li>
+					<#else>
+						<li><a href="${actionUrl}#{i}${urlParas!}">#{i}</a><li>
+				</#if>
+			</#list>
+		<#else>
+			<#list 1..totalPage as i>
+				<#if currentPage == i>
+					<li><a style="color: #000000">#{i}</a></li>
+					<#else>
+						<li><a href="${actionUrl}#{i}${urlParas!}">#{i}</a><li>
+				</#if>
+			</#list>
+		</#if>
+
+		<#if (currentPage == totalPage)>
+			<li>
+				<a aria-label="Next">
+					<span class="disabled" aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		<#else>
+			<li>
+				<a href="${actionUrl}#{currentPage + 1}${urlParas!}" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</#if>
+	</ul>
+</#macro>

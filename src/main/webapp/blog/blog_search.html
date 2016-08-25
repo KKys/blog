@@ -1,0 +1,46 @@
+<#include "/common/index.html" />
+<@index>
+    <div class="container table_box">
+        <span style="font-size: 16px" class="glyphicon glyphicon-list" style="color: gray" aria-hidden="true"></span>
+        <span style="font-size: 20px">最新</span>
+        <hr style="border: 1px solid silver">
+        <#list blogPage.getList() as x>
+            <div class="inline">
+                <a style="font-size:30px;text-decoration:none;" href="${base}/detail/${x.id}">${x.title}</a>
+            </div>
+            <#if x.pic_url??>
+                <div class="row" style="padding-top: 14px;font-size:12px;height: 200px;overflow: hidden;">
+                    <div class="col-lg-3 col-sm-3">
+                        <div style="text-align: center"><a href="${x.pic_url}" class="thumbnail" data-lightbox="example-1"><img src="${x.pic_url}" height="140px"></a></div>
+                    </div>
+                    <div class="col-lg-9 col-sm-9" style="font-size: 14px;">
+                        <div>${x.content}</div>
+                    </div>
+                </div>
+                <#else>
+                    <div style= "height:40px; width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${x.content}</div>
+            </#if>
+            <div style="text-align: right;padding-top: 20px" >
+                <label style="font-size: 13px">${x.create_time}</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label style="font-size: 15px"><span class="glyphicon glyphicon-eye-open" style="color: gray" aria-hidden="true"></span> <a style="text-decoration:none;" href="${base}/detail/${x.id}">阅读</a>(${x.click_times})</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label style="font-size: 15px"><span class="glyphicon glyphicon-edit" style="color: gray" aria-hidden="true"></span>  <a style="text-decoration:none;" href="${base}/detail/${x.id}#comment_id">评论</a>(${x.comment_times})</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label style="font-size: 15px"><span class="glyphicon glyphicon-thumbs-up" style="color: gray" aria-hidden="true"></span>  推荐(${x.agree_with_times})</label>
+            </div>
+            <hr/>
+        </#list>
+        <!-- 分页 -->
+        <nav style="text-align: center">
+            <#if pageSearchType==0>
+                <#include "/common/_paginate.html" />
+                <@paginate currentPage=blogPage.pageNumber totalPage=blogPage.totalPage actionUrl="${base}/" />
+                <#elseif pageSearchType==1>
+                    <#include "/common/_paginate.html" />
+                    <@paginate currentPage=blogPage.pageNumber totalPage=blogPage.totalPage actionUrl="${base}/searchByType/${type}-" />
+            </#if>
+        </nav>
+    </div>
+
+</@index>

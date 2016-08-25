@@ -1,0 +1,91 @@
+<#include "/common/_detail.html" />
+<@index>
+<div class="container table_box">
+    <!-- <h2 >${x.id}</h2> -->
+    <h2 style="text-align:left;"><b>${x.title}</b></h2>
+    <div style="font-size:17px;">
+        <i>本文地址：<a href="http://kkys.online/blog/detail/${x.id}">http://kkys.online/blog/detail/${x.id}</a></i>
+    </div>
+    <div style="text-align: right;font-size: 16px;padding-top: 10px">
+        <div style="float: left">
+            标签：
+            <#if x.type==0>
+                <a href="${base}/searchByType/0" class="label label-info" style="font-size: 16px">学习</a>
+                <#elseif x.type==1>
+                    <a href="${base}/searchByType/1" class="label label-success" style="font-size: 16px">生活</a>
+                    <#else>
+                        <a href="${base}/searchByType/2" class="label label-warning" style="font-size: 16px">杂记</a>
+            </#if>
+        </div>
+        <label style="font-size: 15px;width: 80px;text-align: left"><span class="glyphicon glyphicon-eye-open" style="color: gray" aria-hidden="true"></span> <a style="text-decoration:none;" href="${base}/detail/${x.id}">阅读</a>(${x.click_times})</label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label style="font-size: 15px;width: 80px;text-align: left"><span class="glyphicon glyphicon-edit" style="color: gray" aria-hidden="true"></span>  <a style="text-decoration:none;" href="${base}/detail/${x.id}#comment_id">评论</a>(${x.comment_times})</label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label style="font-size: 15px;width: 80px;text-align: left"><span class="glyphicon glyphicon-thumbs-up" style="color: gray" aria-hidden="true"></span>  推荐(${x.agree_with_times})</label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label style="font-size: 15px">${x.create_time}</label>
+    </div>
+    <hr>
+    <div style="padding-top: 4px;padding-left: 10px;padding-right: 10px;">${x.content}</div>
+    <div><h1 style="padding-bottom: 10px;text-align: center">TODO  支持----反对</h1></div>
+    <hr style="border: 1px solid silver;">
+    <#if (commentList?size>0)>
+        <h3 style="padding-top: 10px">评论列表&nbsp;&nbsp;&nbsp;&nbsp;${x.comment_times}条</h3>
+     <#else>
+        <h3>暂无评论</h3>
+    </#if>
+    <#assign var = 0 >
+    <div style="padding-top: 10px;padding-left: 10px;padding-right: 10px">
+    <#list commentList as comment>
+        <span style="color:black;width: 40px">${var+1}楼</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-user" style="color: gray ;width:150px" aria-hidden="true">&nbsp;${comment.username}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="glyphicon glyphicon-envelope" style="color: gray;width:300px" aria-hidden="true">&nbsp;${comment.email}</span>
+        <div style="font-size:16px;padding: 20px 50px 10px 45px;">${comment.content!""}</div>
+        <div style="color:gray;float: right">
+            <i>评论于 ${comment.create_time}</i>
+        </div>
+        <hr>
+        <#assign var = var+1 >
+    </#list>
+    </div>
+
+    <form id="comment_id" action="${base}/comment/add" method="post">
+        <fieldset>
+            <legend>评论</legend>
+            <input value="${x.id}" type="hidden" name="comment.blog_id">
+            <div class="form-inline">
+                <div class="form-group col-lg-offset-1">
+                    <label style="font-size: 15px;width: 60px;">* 姓  名：</label>
+                    <input style="width:200px;font-size: 15px" type="text" minlength="4" maxlength="30" class="form-control" name="comment.username" required>
+                </div>
+            </div>
+            <div class="form-inline">
+                <div class="form-group  col-lg-offset-1" >
+                    <label style="font-size: 15px;width: 60px;padding-top: 20px" >* 邮  箱：</label>
+                    <input style="width:200px;font-size: 15px" type="email" class="form-control" name="comment.email" required>
+                </div>
+            </div>
+            <div class="form-inline" style="padding-top: 20px">
+                <div class="form-group  col-lg-offset-1" >
+                    <label style="font-size: 15px;width: 60px" >* 内  容：</label>
+                    <textarea name="comment.content" style="width: 500px" class="form-control" rows="4"></textarea>
+                </div>
+            </div>
+
+            <div class="col-lg-offset-1" style="padding-top: 20px;padding-left: 60px;padding-bottom: 15px">
+                <button type="submit"  style="width: 200px;text-align: center" class="btn btn-info">评论</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var j=jQuery.noConflict();
+    j().ready(function() {
+        j("#comment_id").validate();
+    });
+</script>
+
+</@index>
