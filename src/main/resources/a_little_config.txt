@@ -1,4 +1,4 @@
-jdbcUrl = jdbc:mysql://121.42.8.85/jfinal?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
-user = KKys
-password = ysysycyc
+jdbcUrl = jdbc:mysql://127.0.0.1/jfinal?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = root
+password = 123
 devMode = true

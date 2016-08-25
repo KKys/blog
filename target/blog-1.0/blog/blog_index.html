@@ -12,7 +12,7 @@
                 <a style="float: right;text-decoration:none;" href="${base}/detail/${x.id}" class="read_more_button">read more</a>
             </div>
             <#if x.pic_url??>
-                <div class="row" style="padding-top: 8px;font-size:12px;height: 160px;overflow: hidden;">
+                <div class="row" style="padding-top: 12px;font-size:12px;height: 160px;overflow: hidden;">
                     <div class="col-lg-3 col-sm-3">
                         <div style="text-align: center"><a href="${x.pic_url}" class="thumbnail" data-lightbox="example-1"><img src="${x.pic_url}" height="140px"></a></div>
                     </div>
@@ -21,8 +21,7 @@
                     </div>
                 </div>
             <#else>
-                <div style= "height:40px; width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${x.content}</div>
-                <a href="${base}/detail/${x.id}" class="read_more_button">read more</a>
+                <div style= "padding-top: 12px;font-size:12px;height: 160px;overflow: hidden;">${x.content}</div>
             </#if>
             <div style="text-align: right">
                 <label style="font-size: 12px;float: left">${x.create_time}</label>

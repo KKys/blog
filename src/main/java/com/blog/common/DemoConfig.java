@@ -34,7 +34,6 @@ public class DemoConfig extends JFinalConfig {
 	 * 配置路由
 	 */
 	public void configRoute(Routes me) {
-		me.add("/common", CommonController.class);
 		me.add("/", BlogController.class,"/blog");
 		me.add("/comment", CommentController.class,"/blog");
 		me.add("/album", AlbumController.class,"/blog");
