@@ -1,6 +1,7 @@
 package com.blog.common;
 
 
+import cn.dreampie.quartz.QuartzPlugin;
 import com.blog.Album.Album;
 import com.blog.Album.AlbumController;
 import com.blog.blog.Blog;
@@ -55,6 +56,10 @@ public class DemoConfig extends JFinalConfig {
 		arp.addMapping("comment", Comment.class);	// 评论model
 		arp.addMapping("album", Album.class);	// 相册model
 		arp.addMapping("info", Info.class);	// 网站信息model
+		//定时任务
+		QuartzPlugin quartz = new QuartzPlugin();
+		quartz.setJobs("jobs.properties");
+		me.add(quartz);
 	}
 	
 	/**

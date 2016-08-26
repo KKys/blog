@@ -19,10 +19,14 @@ public class BlogController extends Controller {
 	public void index() {
 		//访客人数
 		Info info = Info.dao.findById(1);
-		info.set("today_click_times",info.getInt("today_click_times")+1);
-		info.set("history_click_times",info.getInt("history_click_times")+1);
-		info.update();
 		setAttr("info", info);
+		//判断是否是当日登录
+		if(getSessionAttr("now")==null){
+			setSessionAttr("now",true);
+			info.set("today_click_times",info.getInt("today_click_times")+1);
+			info.set("history_click_times",info.getInt("history_click_times")+1);
+			info.update();
+		}
 		//最新文章
 		setAttr("blogPage", Blog.dao.paginate(getParaToInt(0, 1), 8));
 		//阅读量最多的文章
