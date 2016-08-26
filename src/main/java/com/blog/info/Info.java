@@ -7,4 +7,10 @@ import com.jfinal.plugin.activerecord.Model;
  */
 public class Info extends Model<Info>{
     public static final Info dao = new Info();
+
+    public void clearTodayClick(){
+        Info info = findById(1);
+        info.set("today_click_times",0);
+        info.update();
+    }
 }
