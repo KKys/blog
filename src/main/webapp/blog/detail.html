@@ -14,14 +14,14 @@
                 <#elseif x.type==1>
                     <a href="${base}/searchByType/1" class="label label-success" style="font-size: 16px">生活</a>
                     <#else>
-                        <a href="${base}/searchByType/2" class="label label-warning" style="font-size: 16px">杂记</a>
+                        <a href="${base}/searchByType/2" class="label label-warning" style="font-size: 16px">随笔</a>
             </#if>
         </div>
-        <label style="font-size: 15px;width: 80px;text-align: left"><span class="glyphicon glyphicon-eye-open" style="color: gray" aria-hidden="true"></span> <a style="text-decoration:none;" href="${base}/detail/${x.id}">阅读</a>(${x.click_times})</label>
+        <label style="font-size: 15px;text-align: left"><span class="glyphicon glyphicon-eye-open" style="color: gray" aria-hidden="true"></span> <a style="text-decoration:none;" href="${base}/detail/${x.id}">阅读</a>(${x.click_times})</label>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <label style="font-size: 15px;width: 80px;text-align: left"><span class="glyphicon glyphicon-edit" style="color: gray" aria-hidden="true"></span>  <a style="text-decoration:none;" href="${base}/detail/${x.id}#comment_id">评论</a>(${x.comment_times})</label>
+        <label style="font-size: 15px;text-align: left"><span class="glyphicon glyphicon-edit" style="color: gray" aria-hidden="true"></span>  <a style="text-decoration:none;" href="${base}/detail/${x.id}#comment_id">评论</a>(${x.comment_times})</label>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <label style="font-size: 15px;width: 80px;text-align: left"><span class="glyphicon glyphicon-thumbs-up" style="color: gray" aria-hidden="true"></span>  推荐(${x.agree_with_times})</label>
+        <label style="font-size: 15px;text-align: left"><span class="glyphicon glyphicon-thumbs-up" style="color: gray" aria-hidden="true"></span>  推荐(${x.agree_with_times})</label>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <label style="font-size: 15px">${x.create_time}</label>
     </div>

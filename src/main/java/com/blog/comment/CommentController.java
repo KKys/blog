@@ -24,4 +24,9 @@ public class CommentController extends Controller {
         setAttr("pageSearchType",3);
         redirect("/detail/"+blogId+"#comment_id");
     }
+
+    //返回博客评论列表
+    public void getCommentList() {
+        renderJson(Comment.dao.getCommentList(getParaToInt()));
+    }
 }

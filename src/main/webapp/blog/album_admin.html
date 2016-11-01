@@ -86,21 +86,17 @@
     <div class="container table_box col-lg-8 col-md-10 col-xs-12" style="padding-left: 68px">
         <!-- 管理导航栏 -->
         <ul class="nav nav-tabs" role="tablist" id="feature-tab">
-            <li class="active"><a href="${base}/admin">文章</a></li>
-            <li><a href="${base}/album/admin">相册</a></li>
+            <li><a href="${base}/admin">文章</a></li>
+            <li class="active"><a href="${base}/album/admin">相册</a></li>
         </ul>
         <div style="padding-top: 10px">
-
-            <a data-toggle="modal" data-target="#add-blog-modal" class="btn btn-info btn-sm">写文章</a>
-            <table class="table table-hover" id="blog-table">
+            <a data-toggle="modal" data-target="#add-album-modal" class="btn btn-info btn-sm">传照片</a>
+            <table class="table table-hover" id="album-table">
                 <thead>
                 <tr>
                     <th>序号</th>
                     <th>标题</th>
                     <th>图片</th>
-                    <th>文章编号</th>
-                    <th>阅读量</th>
-                    <th>评论数</th>
                     <th>点赞数</th>
                     <th>创建时间</th>
                     <th>操作</th>
@@ -108,23 +104,20 @@
                 </thead>
                 <tbody>
                 <#assign var = 0 >
-                    <#list blogPage.getList() as x>
+                    <#list albumPage.getList() as x>
                         <tr>
                             <td>${var+1}</td>
-                            <td><a href="#" name="${var+1}" onclick="editInfo(this)">${x.title!""}</a></td>
+                            <td>${x.title!""}</td>
                             <td>
-                                <a href="${x.pic_url!''}" class="thumbnail" data-lightbox="example-set" data-title="<div style='padding-top:5px;font-size: 16px'>${x.title}</div>">
-                                    <img src="${x.pic_url!''}" height="30px" style="height: 30px">
+                                <a href="${x.url}" class="thumbnail" data-lightbox="example-set" data-title="<div style='padding-top:5px;font-size: 16px'>${x.title}</div>">
+                                    <img src="${x.url}" height="30px" style="height: 30px">
                                 </a>
                             </td>
-                            <td>NO.${x.id!""}</td>
-                            <td>${x.click_times!""}</td>
-                            <td>${x.comment_times!""}</td>
-                            <td>${x.agree_with_times!""}</td>
+                            <td>${x.praise_num!""}</td>
                             <td>${x.create_time}</td>
                             <td>
                                 <div class="btn-group btn-group-xs">
-                                    <button type="button" class="btn btn-success" name="${var+1}" onclick="editInfo(this)">修改</button>
+                                    <a data-toggle="modal" data-target="#deleteBlogModel" type="button" class="btn btn-success">修改</a>
                                     <a data-toggle="modal" data-target="#deleteBlogModel" type="button" class="btn btn-warning">删除</a>
                                 </div>
                             </td>
@@ -144,13 +137,13 @@
                                                 <a href="${base}/admin/deleteCar/${x.id}" class="btn btn-warning">确定</a>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                             </div>
-                                        <#elseif session.adminType==1>
-                                            <div class="modal-body">
-                                                <p>对不起，您没有此权限</p>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">了解</button>
+                                            <#elseif session.adminType==1>
+                                                <div class="modal-body">
+                                                    <p>对不起，您没有此权限</p>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">了解</button>
+                                                    </div>
                                                 </div>
-                                            </div>
                                         </#if>
                                     </div><!-- /.modal-content -->
                                 </div><!-- /.modal-dialog -->
@@ -163,7 +156,7 @@
             <!-- 分页 -->
             <nav style="text-align: center">
                 <#include "/common/_paginate.html" />
-                <@paginate currentPage=blogPage.pageNumber totalPage=blogPage.totalPage actionUrl="${base}/admin/" />
+                <@paginate currentPage=albumPage.pageNumber totalPage=albumPage.totalPage actionUrl="${base}/album/admin/" />
             </nav>
 
         </div>
@@ -171,7 +164,7 @@
     <div class="container col-lg-2 col-md-1"></div>
 </div>
 
-<div class="modal fade" id="add-blog-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+<div class="modal fade" id="add-album-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -180,34 +173,23 @@
                 <h4 class="modal-title">添加</h4>
             </div>
 
-                <form action="${base}/save" method="post">
+                <form action="${base}/album/add" method="post">
                     <div class="modal-body">
                         <div>
                             <label style="font-size: 15px">标题:</label>
-                            <input style="display: inline;font-size:15px;width:250px;" name="blog.title" type="text" class="form-control"/>
-                        </div>
-                        <div style="padding-top: 5px">
-                            <label style="font-size: 15px">分类:</label>
-                            <select name="blog.type" class="form-control" style="font-size:15px;width:250px;display: inline">
-                                <option value="0">学习</option>
-                                <option value="1">生活</option>
-                                <option value="2">随笔</option>
-                            </select>
+                            <input style="display: inline;font-size:15px;width:250px;" name="album.title" type="text" class="form-control"/>
                         </div>
                         <div id="pic_div" style="padding-top: 5px;" >
                             <label style="font-size: 15px">图片: </label>
                             <div id="show"></div>
                             <!-- 存储图片地址，并显示图片 -->
-                            <input type="hidden" name="blog.pic_url" id="pictureSrc">
+                            <input type="hidden" name="album.url" id="pictureSrc">
                         </div>
                         <div style="padding-top: 5px">
                             <input type="file" name="image" id="imageFile">
                         </div>
                         <div style="padding-top: 5px">
                             <button id="upload" onclick="return false;">上传</button>
-                        </div>
-                        <div style="padding-top: 8px">
-                            <textarea name="blog.content" class="ckeditor">请输入.</textarea>
                         </div>
                     </div>
                     <#if session.adminType==0>
@@ -224,82 +206,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="update-blog-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span
-                        aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
-                <h4 class="modal-title">查看</h4>
-            </div>
-            <form action="${base}/update" method="post">
-                <div class="modal-body">
-                    <div>
-                        <label style="font-size: 15px">编号:</label>
-                        <input style="display: inline;font-size:15px;width:250px;" id="id" name="blog.id" type="text" class="form-control" readonly/>
-                    </div>
-                    <div style="padding-top: 5px">
-                        <label style="font-size: 15px">标题:</label>
-                        <input style="display: inline;font-size:15px;width:250px;" id="title" name="blog.title" type="text" class="form-control"/>
-                    </div>
-                    <div style="padding-top: 5px">
-                        <label style="font-size: 15px">分类:</label>
-                        <select name="type" id="blog.type" class="form-control" style="font-size:15px;width:250px;display: inline">
-                            <option value="0">学习</option>
-                            <option value="1">生活</option>
-                            <option value="2">随笔</option>
-                        </select>
-                    </div>
-
-                    <div style="padding-top: 5px;" >
-                        <label style="font-size: 15px">图片: </label>
-                        <!-- 存储图片地址，并显示图片 -->
-                        <img height="140px" id="blog_update_image">
-                        <input id="update_blog_image" type="hidden" name="blog.pic_url">
-                    </div>
-                    <div style="padding-top: 8px">
-                        <textarea id="content" name="blog.content" class="ckeditor"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <#if session.adminType==0>
-                        <button type="submit" class="btn btn-success">保存</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <#elseif session.adminType==1>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">了解</button>
-                    </#if>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <script>
-    //编辑-查看信息
-    function editInfo(obj) {
-        var id = j(obj).attr("name");
-        //获取表格中的一行数据
-        var id_db = document.getElementById("blog-table").rows[id].cells[3].innerText.substring(3);
-        //向模态框中传值
-        j('#id').val(id_db);
-        j.ajax({
-            type:'get',
-            url:'${base}/get/'+id_db,
-            cache:false,
-            dataType:'json',
-            success:function(data){
-                j('#title').val(data.title);
-                j('#type').val(data.type);
-                //放入img的src
-                j('#blog_update_image').attr('src',data.pic_url);
-                j('#update_blog_image').val(data.pic_url);
-                CKEDITOR.instances.content.setData(data.content);
-            },
-        });
-        j('#update-blog-modal').modal('show');
-    }
-
     j(document).ready(function() {
         j('#upload').click(function() {
             upload();

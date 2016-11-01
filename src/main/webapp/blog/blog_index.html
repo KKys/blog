@@ -8,13 +8,13 @@
         <hr style="border: 1px solid silver">
         <#list blogPage.getList() as x>
             <div class="inline">
-                <a style="font-size:30px;text-decoration:none;" href="${base}/detail/${x.id}">${x.title}</a>
+                <a style="font-size:25px;text-decoration:none;" href="${base}/detail/${x.id}">${x.title}</a>
                 <a style="float: right;text-decoration:none;" href="${base}/detail/${x.id}" class="read_more_button">read more</a>
             </div>
             <#if x.pic_url??>
                 <div class="row" style="padding-top: 12px;font-size:12px;height: 160px;overflow: hidden;">
                     <div class="col-lg-3 col-sm-3">
-                        <div style="text-align: center"><a href="${x.pic_url}" class="thumbnail" data-lightbox="example-1"><img src="${x.pic_url}" height="140px"></a></div>
+                        <div style="text-align: center;"><a href="${x.pic_url}" class="thumbnail" data-lightbox="example-1"><img src="${x.pic_url}" height="140px"></a></div>
                     </div>
                     <div class="col-lg-9 col-sm-9" style="font-size: 14px">
                         <div>${x.content}</div>

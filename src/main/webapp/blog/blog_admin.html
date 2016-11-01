@@ -1,43 +1,58 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>登录系统</title>
+    <title>管理系统登录</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- 可选的Bootstrap主题文件（一般不使用） -->
     <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap-theme.min.css" rel="stylesheet">
-
 </head>
 <body>
-<div>
-    <h3 style="text-align: center">博客登录</h3>
+
+<div class="col-md-4 col-md-offset-4">
+    <h3 style="text-align: center">登录</h3>
     <hr>
-    <section>
-        <form action="${base}/admin" method="post" class="form-horizontal">
-            <div class="form-group">
-                <label class="control-label col-sm-6" style="font-size: 18px">用户名：</label>
-                <div class="col-sm-6" style="">
-                    <input style="width:180px;font-size: 18px" type="text" class="form-control" name="username" placeholder="admin">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-6" style="font-size: 18px">密码：</label>
-                <div class="col-sm-6">
-                    <input style="width:180px;font-size: 18px" type="password" class="form-control" name="password" placeholder="123456">
-                </div>
-            </div>
-            <hr>
-            <div class="col-lg-offset-5" style="width: 360px">
-                <button style="font-size: 18px;text-align: center" type="submit" class="btn btn-default btn-block">登录</button>
-            </div>
-        </form>
+    <form id="adminForm" class="form-horizontal" action="${base}/admin" method="post">
+        <div class="form-group">
+            <label class="control-label col-lg-5 glyphicon glyphicon-user" style="font-size: 16px"></label>
+            <input style="width:180px;font-size: 16px" type="text" class="form-control" name="username" placeholder="admin">
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-5 glyphicon glyphicon-pencil" style="font-size: 16px"></label>
+            <input style="width:180px;font-size: 16px" type="password" class="form-control" name="password" placeholder="123456">
+        </div>
+        <input name="type" value="0" hidden>
+        <span id="error" style="font-size: 16px;color: red"></span>
         <hr>
-        <label style="font-size: 20px">管理员账号：admin    密码123456</label>
-    </section>
+    </form>
+    <div style="text-align: center">
+        <button style="font-size: 16px;" onclick="submit()" class="btn btn-default">登录</button>
+    </div>
+    <a style="float:right;font-size: 12px;" href="${base}/login?type=1">游客通道</a>
 </div>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script>
+    var j=jQuery.noConflict();
+    function submit(){
+        var username = j("input[name='username']").val();
+        var password = j("input[name='password']").val();
+        j.ajax({
+            url: "${base}/login?type=0",    //请求的url地址
+            dataType: "text",   //返回格式为json
+            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data: { "username": username, "password":password},    //参数值
+            type: "POST",   //请求方式
+            success: function(req) {
+                if(req.toString().indexOf('错误')>0){
+                    j("#error").html(req.toString());
+                }else
+                    j('#adminForm').submit();
+            }
+        });
+    }
+</script>
 </body>
 </html>
